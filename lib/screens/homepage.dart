@@ -35,7 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void searchingForImages(String searchedPhoto) {
     searchedForPhotos = photosList
         .where((image) =>
-            image.albumId.toString().toLowerCase().startsWith(searchedPhoto))
+            image.albumId.toString().toLowerCase().startsWith(searchedPhoto) ||
+            image.title.toString().toLowerCase().startsWith(searchedPhoto))
         .toList();
     setState(() {
       isSearching = true;
@@ -92,10 +93,11 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 5,
             ),
             ItemWidget(
-                searchTextController: searchTextController,
-                itemsToDisplay: itemsToDisplay,
-                searchedForPhotos: searchedForPhotos,
-                photosList: photosList),
+              searchTextController: searchTextController,
+              itemsToDisplay: itemsToDisplay,
+              searchedForPhotos: searchedForPhotos,
+              photosList: photosList,
+            ),
             buildPaginationButtons(),
           ],
         ),
