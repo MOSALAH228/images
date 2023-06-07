@@ -14,7 +14,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<PhotosModuel> photosList = [];
   bool isLoading = true;
 
-  getData() async {
+  Future<void> getData() async {
     photosList = await PhotosApi().getPhotosData();
     isLoading = false;
     setState(() {});
@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //using for pagination
   int currentPage = 1;
 
-  get totalPages {
+  int get totalPages {
     final itemsPerPage = 10;
     return (photosList.length / itemsPerPage).ceil();
   }
