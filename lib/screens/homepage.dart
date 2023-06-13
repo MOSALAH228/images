@@ -9,6 +9,13 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+enum SortOption {
+  albumId,
+  title,
+}
+
+SortOption currentSortOption = SortOption.albumId;
+
 class _MyHomePageState extends State<MyHomePage> {
   //the orignal List from photos module
   List<PhotosModuel> photosList = [];
@@ -40,6 +47,22 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
     setState(() {
       isSearching = true;
+    });
+  }
+
+  //function for Sorting images using albumid and title
+  void sortImages() {
+    setState(() {
+      switch (currentSortOption) {
+        case SortOption.albumId:
+          // Sort the photos by album ID
+          photosList.sort((a, b) => a.albumId.compareTo(b.albumId));
+          break;
+        case SortOption.title:
+          // Sort the photos by photo title
+          photosList.sort((a, b) => a.title.compareTo(b.title));
+          break;
+      }
     });
   }
 
@@ -99,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
               photosList: photosList,
             ),
             buildPaginationButtons(),
+            buildSortingButtons(),
           ],
         ),
       ),
@@ -176,6 +200,39 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  DropdownButton<SortOption> buildSortingButtons() {
+    return DropdownButton<SortOption>(
+      style: TextStyle(
+        color: MyColors.myYellow,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+      iconEnabledColor: MyColors.myWhite,
+      value: currentSortOption,
+      onChanged: (SortOption? newValue) {
+        setState(() {
+          currentSortOption = newValue!;
+          sortImages();
+        });
+      },
+      items: SortOption.values.map((SortOption option) {
+        String displayText;
+        switch (option) {
+          case SortOption.albumId:
+            displayText = 'Sort with ID';
+            break;
+          case SortOption.title:
+            displayText = 'Sort with Title';
+            break;
+        }
+        return DropdownMenuItem<SortOption>(
+          value: option,
+          child: Text(displayText),
+        );
+      }).toList(),
     );
   }
 }
