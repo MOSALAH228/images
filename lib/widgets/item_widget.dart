@@ -85,7 +85,10 @@ class ItemWidget extends StatelessWidget {
                     : searchedForPhotos[index].thumbnailUrl,
                 fit: BoxFit.cover,
               )
-            : Image.asset("assets/images/loading.gif"),
+            : Icon(
+                Icons.error,
+                size: 18,
+              ),
       ),
       header: Padding(
         padding: const EdgeInsets.all(8.0),
